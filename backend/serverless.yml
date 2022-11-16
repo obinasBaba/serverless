@@ -166,12 +166,6 @@ functions:
           request:
             schema:
               application/json: ${file(src/requests/create-todo-request.json)}
-          documentation:
-            summary: "Create a new todo item"
-            description: "Create a new todo item"
-            requestModels:
-              "application/json": CreateTodoRequest
-          reqValidatorName: RequestBodyValidator
     iamRoleStatementsName: ${self:provider.environment.PROJECT_NAME}-create-todo-role-${self:provider.stage}
     iamRoleStatements:
       - Effect: Allow
@@ -300,7 +294,6 @@ resources:
           Ref: ApiGatewayRestApi
         ValidateRequestBody: true
         ValidateRequestParameters: false
-
     AttachmentsBucket:
       Type: AWS::S3::Bucket
       Properties:
