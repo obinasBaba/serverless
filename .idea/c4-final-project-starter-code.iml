@@ -9,5 +9,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="udacity-aws-serverless-project-todo" />
+    <orderEntry type="module" module-name="Serverless_Application_Project_Demo-2" />
   </component>
 </module>

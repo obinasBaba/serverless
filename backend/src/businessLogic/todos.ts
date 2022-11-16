@@ -3,8 +3,12 @@ import * as AWS from 'aws-sdk'
 import { getUserId } from '../utils/getJwt'
 import { TodoItem, TodoCreate, TodoUpdate } from '../models/Todo'
 import { TodoAccess } from '../dataLayer/ToDoAccess'
+import * as AWSXRay from 'aws-xray-sdk'
 
 const todoAccess = new TodoAccess()
+
+const XAWS = AWSXRay.captureAWS(AWS);
+
 
 export async function getTodos(jwtToken: string): Promise<TodoItem[]> {
   const userId: string = getUserId(jwtToken)
@@ -39,9 +43,10 @@ export async function deleteTodo(jwtToken: string, todoId: string): Promise<void
 
 export async function generateUploadUrl(jwtToken: string, todoId: string): Promise<string> {
   const userId = getUserId(jwtToken)
-  const bucketName = process.env.IMAGES_S3_BUCKET
+  const bucketName = process.env.S3_BUCKET_NAME
   const urlExpiration = parseInt(process.env.SIGNED_URL_EXPIRATION, 10)
-  const s3 = new AWS.S3({ signatureVersion: 'v4' })
+  const s3 = new XAWS.S3({ signatureVersion: 'v4' });
+
   const signedUrl = s3.getSignedUrl('putObject', {
     Bucket: bucketName, Key: todoId, Expires: urlExpiration
   })

@@ -18,7 +18,10 @@ export const handler: APIGatewayProxyHandler = async (
   };
 
   try {
+
     const signedUrl: string = await generateUploadUrl(jwtToken, todoId);
+
+
     logger.info('Successfully created signed url.');
     return {
       statusCode: 201,
