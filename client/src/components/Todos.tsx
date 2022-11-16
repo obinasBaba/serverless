@@ -57,15 +57,23 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
   onTodoCreate = async (event: React.ChangeEvent<HTMLButtonElement>) => {
     try {
       const dueDate = this.calculateDueDate();
+
+      if (this.state.newTodoName?.trim().length === 0){
+        throw new Error('Todo creation failed')
+      }
+
       const newTodo = await createTodo(this.props.auth.getIdToken(), {
         name: this.state.newTodoName,
         dueDate
       });
+
+      console.log('new to do: ', newTodo)
+
       this.setState({
         todos: [...this.state.todos, newTodo],
         newTodoName: ''
       });
-    } catch {
+    } catch(e) {
       alert('Todo creation failed');
     }
   };
